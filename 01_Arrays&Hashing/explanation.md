@@ -499,3 +499,62 @@ public:
     ```
 
 このアルゴリズムのメリットは、除算を使用せずに各要素の結果を計算できる点にあります。そのため、0を含むリストに対しても動作します。また、各要素の計算は定数時間で行えるため、全体の計算量はO(n)です。
+
+# 07_Valid Sudoku
+
+```cpp
+class Solution {
+public:
+    bool isValidSudoku(std::vector<std::vector<char>>& board) {
+        unordered_map<int, unordered_set<char>> cols;
+        unordered_map<int, unordered_set<char>> rows;
+        unordered_map<int, unordered_set<char>> suqures;
+
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                if (board[r][c] == '.') {
+                    continue;
+                }
+
+                int area = (r/3) * 3 + (c/3);
+                if (cols[c].find(board[r][c]) != cols[c].end() ||
+                    rows[r].find(board[r][c]) != rows[r].end() || 
+                    suqures[area].find(board[r][c]) != suqures[area].end()) 
+                {
+                    return false;
+                }
+                
+                cols[c].insert(board[r][c]);
+                rows[r].insert(board[r][c]);
+                suqures[area].insert(board[r][c]);
+            }
+        }
+
+        return true;
+    }
+};
+```
+
+このC++のコードは、9x9のSudokuボードが有効かどうかを確認するためのものです。以下に、コードの詳細な説明を示します。
+
+1. **前提**:
+   Sudokuのボードでは、各行、各列、および9つの3x3サブボックスのいずれにも、同じ数字が2回以上現れてはいけません。
+
+2. **データ構造**:
+   - `std::unordered_map<int, std::unordered_set<char>> cols;`: 各列にある数字を追跡します。
+   - `std::unordered_map<int, std::unordered_set<char>> rows;`: 各行にある数字を追跡します。
+   - `std::unordered_map<int, std::unordered_set<char>> squares;`: 各3x3サブボックスにある数字を追跡します。キーは`(r/3)*3 + (c/3)`で、これによって各サブボックスに一意のIDが付けられます。
+
+3. **コードの流れ**:
+   - すべてのセルを二重ループで走査します。
+   - `board[r][c]`が'.'の場合、それは空のセルなので、次のセルに進みます。
+   - 現在の数字が、その行、列、またはサブボックスに既に存在する場合、ボードは無効です。
+   - 現在の数字がそれらの位置に存在しない場合、その数字を対応する行、列、サブボックスのセットに追加します。
+   - ループが完了したら、ボードは有効と見なされます。
+
+4. **キーポイント**:
+   - `unordered_set`は重複する要素を持たないため、各行、列、サブボックスで数字が2回以上現れた場合は、その数字はすでにセットに存在します。
+   - `squares[(r/3)*3 + (c/3)]`: これは3x3サブボックスのインデックスを計算する式です。たとえば、`r=5`および`c=7`の場合、これは2行目、2列目のサブボックスを示すので、インデックスは`2*3 + 2 = 8`となります。
+
+5. **結論**:
+   - 上記のアプローチにより、すべてのセルを1回だけ走査することで、Sudokuボードの有効性を効果的に確認できます。
