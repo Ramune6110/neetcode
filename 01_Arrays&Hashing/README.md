@@ -139,7 +139,7 @@
 | **初期化** | 新しい`unordered_map`を作成します。 | `std::unordered_map<int, std::string> umap;` |
 | **要素の挿入** | キーと値のペアを`unordered_map`に挿入します。 | `umap[1] = "one";` `umap.insert({2, "two"});` |
 | **要素のアクセス** | キーを使用して値にアクセスします。 | `std::string value = umap[1];` |
-| **要素の検索** | 指定したキーを持つ要素が存在するかどうかを調べます。 | `auto it = umap.find(1);` `if(it != umap.end()) { /* found */ }` |
+| **要素の検索** | 指定したキーを持つ要素が存在するかどうかを調べます。 | `if(umap.find(4) != umap.end()) { /* found */ }` |
 | **要素の削除** | キーを使用して要素を削除します。 | `umap.erase(1);` |
 | **サイズの取得** | `unordered_map`内の要素の数を取得します。 | `size_t size = umap.size();` |
 | **空かどうかの確認** | `unordered_map`が空であるかどうかを確認します。 | `if(umap.empty()) { /* empty */ }` |
