@@ -1,3 +1,64 @@
+# 01_Contains Duplicate
+
+```cpp
+/*
+    Given int array, return true if any value appears at least twice
+    Ex. nums = [1,2,3,1] -> true, nums = [1,2,3,4] -> false
+
+    If the number has been seen previously, then it has a duplicate. Otherwise, insert it into the hash set.
+
+    Time: O(n)
+    Space: O(n)
+*/
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> s;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (s.find(nums[i]) != s.end()) {
+                return true;
+            }
+            s.insert(nums[i]);
+        }
+        
+        return false;
+    }
+};
+```
+
+このコードは、整数のベクトル`nums`の中に重複する要素が存在するかどうかを確認するものです。重複要素が存在する場合は`true`を、存在しない場合は`false`を返します。
+
+以下がこの関数の動作の詳細です：
+
+1. **unordered_setの初期化**
+    ```cpp
+    unordered_set<int> s;
+    ```
+    `unordered_set`は、要素の重複を許さないハッシュテーブルベースのデータ構造であり、要素の追加、削除、検索が平均的にO(1)の時間で行えます。この`unordered_set`を使用して、`nums`に登場した要素を保存していきます。
+
+2. **numsの走査**
+    ```cpp
+    for (int i = 0; i < nums.size(); i++) {
+        if (s.find(nums[i]) != s.end()) {
+            return true;
+        }
+        s.insert(nums[i]);
+    }
+    ```
+    `nums`の各要素を左から右へと走査していきます。各要素について、まずその要素がすでに`unordered_set s`に存在するかを確認します。存在する場合（`s.find(nums[i]) != s.end()`）、それは重複要素であるため`true`を返します。
+
+    存在しない場合、その要素は`unordered_set s`に追加されます。これにより、次に同じ要素が`nums`に現れたときに、重複を検出することができます。
+
+3. **結果の返却**
+    ```cpp
+    return false;
+    ```
+    ループが全ての要素を走査して終了した後、この行が実行されます。この時点で重複要素が見つからなければ、`false`が返されます。
+
+全体的に、この関数は`nums`の各要素を1回ずつチェックするため、計算量はO(n)です（ただし、nは`nums`のサイズ）。
+
 # 06_Product of Array Except Self
 
 ```cpp
