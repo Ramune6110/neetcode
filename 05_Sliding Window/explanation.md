@@ -152,6 +152,98 @@ return maxSize;
 ```
 最も長い部分文字列の長さ`maxSize`を返します。
 
+# 03_Longest Repeating Character Replacement
+
+```cpp
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> count(26);
+        int l = 0;
+        int r = 0;
+        int maxCount = 0;
+        int res = 0;
+
+        while (r < s.size()) {
+            count[s[r] - 'A']++;
+            maxCount = max(maxCount, count[s[r] - 'A']);
+            if (r - l + 1 - maxCount > k) {
+                count[s[l] - 'A']--;
+                l++;
+            }
+
+            res = max(res, r - l + 1);
+            r++;
+        }
+
+        return res;
+    }
+};
+```
+
+このコードは、指定された数の文字の置き換えによって得られる、文字列内の最も長い連続した同じ文字の部分文字列の長さを計算するものです。
+
+詳細な解説を行いましょう：
+
+1. **変数の初期化**:
+```cpp
+vector<int> count(26);
+int maxCount = 0;
+
+int i = 0;
+int j = 0;
+
+int result = 0;
+```
+- `count`: 各アルファベット文字の出現回数を格納するためのベクターです。このベクターのインデックスは`'A'`からの文字のオフセットによって計算されます。
+- `maxCount`: 現在のウィンドウ内で最も頻度の高い文字の出現回数です。
+- `i`と`j`: 現在考慮している文字列のウィンドウを示す左端と右端のポインタです。
+- `result`: これまでに見つかった最長の部分文字列の長さを保持する変数です。
+
+2. **メインループ**:
+```cpp
+while (j < s.size()) {
+    // ...
+}
+```
+このループは、右側のポインタ`j`が文字列の終わりに到達するまで続きます。
+
+3. **文字のカウントと最大頻度の更新**:
+```cpp
+count[s[j] - 'A']++;
+maxCount = max(maxCount, count[s[j] - 'A']);
+```
+現在の文字`s[j]`の出現回数を更新し、その後`maxCount`を更新します。
+
+4. **ウィンドウサイズの調整**:
+```cpp
+if (j - i + 1 - maxCount > k) {
+    count[s[i] - 'A']--;
+    i++;
+}
+```
+もし、ウィンドウのサイズから最も頻繁に出現する文字の出現回数を引いた結果が、許容される置き換え回数`k`よりも大きければ、左端のポインタ`i`を進めてウィンドウサイズを縮小します。
+
+5. **最大部分文字列の長さの更新**:
+```cpp
+result = max(result, j - i + 1);
+```
+現在のウィンドウのサイズを、これまでの最大の部分文字列の長さと比較して更新します。
+
+6. **右側のポインタの進行**:
+```cpp
+j++;
+```
+右側のポインタ`j`を次の文字に進めます。
+
+7. **結果の返却**:
+```cpp
+return result;
+```
+計算された最大の部分文字列の長さを返します。
+
+このアルゴリズムはスライディングウィンドウアプローチを使用しており、与えられた文字列を1回の通過で解析することで、O(n)の時間複雑度で最適な部分文字列の長さを計算します。
+
 # Reference
 
 1. https://morizatta.com/algorithm-sliding-window/  
