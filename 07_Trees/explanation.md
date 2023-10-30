@@ -1,3 +1,109 @@
+# 二分探索木の基本操作
+二分探索木 (Binary Search Tree, BST) は、特定のプロパティを持つバイナリツリーです。各ノードには値があり、左の子ノードには現在のノードの値よりも小さい値が、右の子ノードには現在のノードの値よりも大きい値が含まれます。
+
+以下、BSTのよく使われる操作とその実装を紹介します：
+
+1. **挿入 (Insertion)**
+
+    新しいノードを正しい位置に追加する。
+
+```cpp
+TreeNode* insert(TreeNode* root, int val) {
+    if (!root) {
+        return new TreeNode(val);
+    }
+
+    if (val < root->val) {
+        root->left = insert(root->left, val);
+    } else if (val > root->val) {
+        root->right = insert(root->right, val);
+    }
+
+    return root;
+}
+```
+
+2. **検索 (Search)**
+
+    与えられた値を持つノードを探します。
+
+```cpp
+TreeNode* search(TreeNode* root, int val) {
+    if (!root || root->val == val) {
+        return root;
+    }
+
+    if (val < root->val) {
+        return search(root->left, val);
+    } else {
+        return search(root->right, val);
+    }
+}
+```
+
+3. **削除 (Deletion)**
+
+    与えられた値を持つノードを削除します。この操作はやや複雑です。
+
+```cpp
+TreeNode* deleteNode(TreeNode* root, int key) {
+    if (!root) return nullptr;
+
+    if (key < root->val) {
+        root->left = deleteNode(root->left, key);
+    } else if (key > root->val) {
+        root->right = deleteNode(root->right, key);
+    } else {
+        if (!root->left) {
+            TreeNode* rightChild = root->right;
+            delete root;
+            return rightChild;
+        } else if (!root->right) {
+            TreeNode* leftChild = root->left;
+            delete root;
+            return leftChild;
+        }
+
+        root->val = minValue(root->right);
+
+        root->right = deleteNode(root->right, root->val);
+    }
+
+    return root;
+}
+
+int minValue(TreeNode* root) {
+    int minValue = root->val;
+    while (root->left) {
+        minValue = root->left->val;
+        root = root->left;
+    }
+    return minValue;
+}
+```
+
+4. **最小値 & 最大値の探索**
+
+    BSTの最小値は左の最も深いノードに、最大値は右の最も深いノードにあります。
+
+```cpp
+TreeNode* findMin(TreeNode* root) {
+    while (root->left) {
+        root = root->left;
+    }
+    return root;
+}
+
+TreeNode* findMax(TreeNode* root) {
+    while (root->right) {
+        root = root->right;
+    }
+    return root;
+}
+```
+
+これらの操作はBSTの基本的な操作です。二分探索木はバランスが保たれている場合、これらの操作はすべてO(log n)の時間複雑度で動作します。ただし、最悪の場合（例：連続して挿入されるときなど）はO(n)の時間がかかることがあります。
+
 # 深さ優先探索と幅優先探索
 以下に二分探索木(Binary Search Tree, BST)に対して深さ優先探索(DFS)と幅優先探索(BFS)を実装する例を示します：
 
