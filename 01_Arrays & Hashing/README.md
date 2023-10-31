@@ -119,23 +119,8 @@
 | **全要素削除** | セットのすべての要素を削除する。 | `s.clear();` |
 
 # unordered_set典型的アルゴリズム
-### 1. **Two Sum Problem**:
-与えられた整数の配列とターゲットの整数があり、配列内の2つの異なるインデックスを持つ数の合計がターゲットに等しい場合、それらのインデックスを返します。
-```cpp
-std::vector<int> twoSum(std::vector<int>& nums, int target) {
-    std::unordered_map<int, int> hashMap;
-    for (int i = 0; i < nums.size(); i++) {
-        int complement = target - nums[i];
-        if (hashMap.find(complement) != hashMap.end()) {
-            return {hashMap[complement], i};
-        }
-        hashMap[nums[i]] = i;
-    }
-    return {};  // Empty vector if no solution is found
-}
-```
 
-### 2. **Contains Duplicate**:
+### 1. **Contains Duplicate**:
 配列内に重複する要素が存在するかどうかを確認します。
 ```cpp
 bool containsDuplicate(std::vector<int>& nums) {
@@ -150,7 +135,7 @@ bool containsDuplicate(std::vector<int>& nums) {
 }
 ```
 
-### 3. **Longest Substring Without Repeating Characters**:
+### 2. **Longest Substring Without Repeating Characters**:
 文字列内の最も長い部分文字列の長さを返し、その部分文字列には重複する文字が含まれていません。
 ```cpp
 int lengthOfLongestSubstring(std::string s) {
@@ -172,7 +157,7 @@ int lengthOfLongestSubstring(std::string s) {
 }
 ```
 
-### 4. **Intersection of Two Arrays**:
+### 3. **Intersection of Two Arrays**:
 2つの配列が与えられた場合、2つの配列の交差を表す要素のリストを返します。
 ```cpp
 std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) {
@@ -216,6 +201,75 @@ std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) 
 | **空かどうかの確認** | `unordered_map`が空であるかどうかを確認します。 | `if(umap.empty()) { /* empty */ }` |
 | **全要素の削除** | `unordered_map`のすべての要素を削除します。 | `umap.clear();` |
 | **イテレート** | `unordered_map`の要素をイテレートします。 | `for(const auto& pair : umap) { /* use pair.first and pair.second */ }` |
+
+# unordered_map典型的アルゴリズム
+
+### 1. **Two Sum Problem**:
+与えられた整数の配列とターゲットの整数があり、配列内の2つの数の合計がターゲットに等しい場合、それらの数のインデックスを返します。
+```cpp
+std::vector<int> twoSum(std::vector<int>& nums, int target) {
+    std::unordered_map<int, int> hashMap;
+    for (int i = 0; i < nums.size(); i++) {
+        int complement = target - nums[i];
+        if (hashMap.find(complement) != hashMap.end()) {
+            return {hashMap[complement], i};
+        }
+        hashMap[nums[i]] = i;
+    }
+    return {};  // Empty vector if no solution is found
+}
+```
+
+### 2. **Frequency Count**:
+配列内の各要素の出現回数をカウントします。
+```cpp
+std::unordered_map<int, int> countFrequencies(std::vector<int>& nums) {
+    std::unordered_map<int, int> freqMap;
+    for (int num : nums) {
+        freqMap[num]++;
+    }
+    return freqMap;
+}
+```
+
+### 3. **Group Anagrams**:
+文字列の配列が与えられ、アナグラムごとにグループ化します。
+```cpp
+std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs) {
+    std::unordered_map<std::string, std::vector<std::string>> map;
+    for (std::string& s : strs) {
+        std::string key = s;
+        std::sort(key.begin(), key.end());
+        map[key].push_back(s);
+    }
+    
+    std::vector<std::vector<std::string>> result;
+    for (auto& pair : map) {
+        result.push_back(pair.second);
+    }
+    return result;
+}
+```
+
+### 4. **Subarray Sum Equals K**:
+連続する部分配列の合計が指定された値Kに等しい場合、そのような部分配列の数を返します。
+```cpp
+int subarraySum(std::vector<int>& nums, int k) {
+    std::unordered_map<int, int> prefixSum;
+    prefixSum[0] = 1; 
+    int sum = 0, count = 0;
+    
+    for (int num : nums) {
+        sum += num;
+        if (prefixSum.find(sum - k) != prefixSum.end()) {
+            count += prefixSum[sum - k];
+        }
+        prefixSum[sum]++;
+    }
+    
+    return count;
+}
+```
 
 # priority_queue
 
