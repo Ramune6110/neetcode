@@ -28,7 +28,7 @@ struct ListNode {
 | 操作 | 説明 | 例 |
 |------|------|-----|
 | **初期化** | 新しい連結リストのノードを初期化する。 | `ListNode* newNode = new ListNode(5);` |
-| **ノードの追加** | 連結リストの末尾に新しいノードを追加する。 | ```ListNode* tail = new ListNode(10); newNode->next = tail;``` |
+| **ノードの追加** | 連結リストの末尾に新しいノードを追加する。 | ```ListNode* tail = new ListNode(10);   newNode->next = tail;``` |
 | **ノードの挿入** | 連結リストの特定の位置にノードを挿入する。 | ```ListNode* inserted = new ListNode(7); inserted->next = newNode->next; newNode->next = inserted;``` |
 | **ノードの検索** | 与えられた値を持つノードを検索する。 | ```ListNode* current = newNode; while (current != nullptr && current->val != 7) { current = current->next; }``` |
 | **ノードの削除** | 連結リストから特定のノードを削除する。 | ```ListNode* toDelete = newNode->next; newNode->next = toDelete->next; delete toDelete;``` |
