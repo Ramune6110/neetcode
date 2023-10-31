@@ -189,7 +189,7 @@ int getHeight(TreeNode* root) {
 
 # Trees典型アルゴリズム
 
-### **深さ優先探索 (DFS)**:
+### 1. **深さ優先探索 (DFS)**:
 通常、DFS は再帰を使用して実装されますが、スタックを使って反復的にも実装できます。
 
 ```cpp
@@ -224,7 +224,7 @@ void dfs_iterative(TreeNode* root) {
 }
 ```
 
-### **幅優先探索 (BFS)**:
+### 2. **幅優先探索 (BFS)**:
 BFSは通常、キューを使用して反復的に実装されます。
 
 ```cpp
@@ -249,7 +249,7 @@ void bfs(TreeNode* root) {
 }
 ```
 
-### **節点の追加**:
+### 3. **節点の追加**:
 二分探索木において、新しいノードを追加したり、既存のノードを削除したりする操作
 ```cpp
 TreeNode* insert(TreeNode* root, int val) {
@@ -265,7 +265,7 @@ TreeNode* insert(TreeNode* root, int val) {
 }
 ```
 
-### **節点の削除**:
+### 4. **節点の削除**:
 二分探索木において、新しいノードを追加したり、既存のノードを削除したりする操作
 ```cpp
 TreeNode* minValueNode(TreeNode* root) {
@@ -300,7 +300,7 @@ TreeNode* deleteNode(TreeNode* root, int val) {
 }
 ```
 
-### **AVL木**: 
+### 5. **AVL木**: 
 左右のサブツリーの高さの差（バランスファクタ）が最大1になるように木を平衡化します
 ```cpp
 // AVL Treeの基本概念の簡単なデモ
@@ -367,7 +367,7 @@ TreeNode* insertAVL(TreeNode* node, int val) {
 }
 ```
 
-### **木の直径**:
+### 6. **木の直径**:
 木の任意の2つのノード間の最長のパスを見つけます
 ```cpp
 int diameterOfTree(TreeNode* root, int &res) {
@@ -385,7 +385,7 @@ int diameter(TreeNode* root) {
 }
 ```
 
-### **木の同型性の確認**:
+### 7. **木の同型性の確認**:
 2つの木が同じ構造を持っているかどうかを確認するアルゴリズム。
 2つの木が同型である場合、それぞれの木の節点は同じ子供の数を持っていなければなりません。さらに、それらの子供たちもまた同型でなければなりません。
 
@@ -399,7 +399,7 @@ bool isIsomorphic(TreeNode* root1, TreeNode* root2) {
 }
 ```
 
-### **木から配列への変換**:
+### 8. **木から配列への変換**:
 木のノードを配列に変換します。
 木の各節点の値を前順序で訪問して配列に追加します。
 
@@ -415,7 +415,7 @@ void treeToArray(TreeNode* root, vector<int>& result) {
 }
 ```
 
-### **配列から木への変換**:
+### 9. **配列から木への変換**:
 配列をバランスの取れた二分探索木に変換します。
 前順序で訪問された節点の値を持つ配列を使用して木を再構築します。
 
