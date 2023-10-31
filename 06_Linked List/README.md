@@ -37,7 +37,7 @@ struct ListNode {
 
 # Linked List典型アルゴリズム
 
-### **反転**:
+### 1. **反転**:
 連結リストの順序を反転します。
 ```cpp
 ListNode* reverse(ListNode* head) {
@@ -56,7 +56,7 @@ ListNode* reverse(ListNode* head) {
 }
 ```
 
-### **中央のノードの検出**:
+### 2. **中央のノードの検出**:
 連結リストの中央のノードを探すために、2つのポインタを使用する方法（一つは1ステップずつ、もう一つは2ステップずつ動かす）。
 ```cpp
 ListNode* findMiddle(ListNode* head) {
@@ -72,7 +72,7 @@ ListNode* findMiddle(ListNode* head) {
 }
 ```
 
-### **k番目のノードの検出**:
+### 3. **k番目のノードの検出**:
 連結リストの最後からk番目のノードを見つける方法。
 ```cpp
 ListNode* findKthFromEnd(ListNode* head, int k) {
@@ -93,7 +93,7 @@ ListNode* findKthFromEnd(ListNode* head, int k) {
 }
 ```
 
-### **マージ**:
+### 4. **マージ**:
 2つのソートされた連結リストを1つのソートされたリストにマージする。
 ```cpp
 ListNode* merge(ListNode* l1, ListNode* l2) {
@@ -118,7 +118,7 @@ ListNode* merge(ListNode* l1, ListNode* l2) {
 }
 ```
 
-### **連結リストの分割**:
+### 5. **連結リストの分割**:
 ある値xを基準に、それより小さいノードを左側に、大きいノードを右側に配置する方法。
 ```cpp
 ListNode* partition(ListNode* head, int x) {
