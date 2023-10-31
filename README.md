@@ -76,6 +76,76 @@
 | **swap** | 2つのベクトルの内容を交換します。 | `v1.swap(v2);` |
 
 ### 活用例
+以下は、`vector`を活用した典型的なアルゴリズムとその実装例を示します。
+
+1. **線形探索**:
+- 配列内の特定の要素を探索します。
+```cpp
+int linearSearch(const std::vector<int>& nums, int target) {
+    for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] == target) return i;
+    }
+    return -1;  // Not found
+}
+```
+
+2. **最大・最小値の検索**:
+- 配列内の最大または最小値を探索します。
+```cpp
+int findMax(const std::vector<int>& nums) {
+    int max_val = INT_MIN;
+    for (int num : nums) {
+        if (num > max_val) max_val = num;
+    }
+    return max_val;
+}
+```
+
+3. **順列の生成**:
+- `vector`の要素のすべての順列を生成します。
+```cpp
+void generatePermutations(std::vector<int>& nums, int start, std::vector<std::vector<int>>& result) {
+    if (start == nums.size() - 1) {
+        result.push_back(nums);
+        return;
+    }
+    for (int i = start; i < nums.size(); i++) {
+        std::swap(nums[start], nums[i]);
+        generatePermutations(nums, start + 1, result);
+        std::swap(nums[start], nums[i]);  // backtrack
+    }
+}
+```
+
+4. **動的計画法を使用した最長増加部分列 (LIS)**:
+- 与えられた配列の最長増加部分列の長さを見つけます。
+```cpp
+int lengthOfLIS(const std::vector<int>& nums) {
+    if (nums.empty()) return 0;
+    std::vector<int> dp(nums.size(), 1);
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+    return *std::max_element(dp.begin(), dp.end());
+}
+```
+
+5. **前方累積和**:
+- `vector`の各要素に対して、それまでの累積和を計算します。
+```cpp
+std::vector<int> computePrefixSum(const std::vector<int>& nums) {
+    std::vector<int> prefixSum(nums.size(), 0);
+    prefixSum[0] = nums[0];
+    for (int i = 1; i < nums.size(); i++) {
+        prefixSum[i] = prefixSum[i - 1] + nums[i];
+    }
+    return prefixSum;
+}
+```
 
 # アダプターコンテナ (Container Adapters):
 # 1. stack
