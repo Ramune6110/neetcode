@@ -144,3 +144,128 @@ ListNode* partition(ListNode* head, int x) {
     return beforeDummy.next;
 }
 ```
+
+### 6. **ノードの削除** (特定の値を持つノードを削除):
+指定された値を持つノードや特定の位置のノードを削除します。
+```cpp
+ListNode* removeNode(ListNode* head, int val) {
+    ListNode dummy;
+    dummy.next = head;
+    ListNode* curr = &dummy;
+
+    while (curr->next) {
+        if (curr->next->val == val) {
+            ListNode* temp = curr->next;
+            curr->next = curr->next->next;
+            delete temp;
+        } else {
+            curr = curr->next;
+        }
+    }
+
+    return dummy.next;
+}
+```
+
+### 7. **サイクルの検出**:
+Floydのサイクル検出アルゴリズム（または "Tortoise and the Hare" アルゴリズム）を使用して、連結リストにループが存在するかを検出します。
+```cpp
+bool hasCycle(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return true;
+        }
+    }
+
+    return false;
+}
+```
+
+### 8. **サイクルの開始ノードの検出**:
+連結リストにサイクルがある場合、そのサイクルが開始するノードを検出する。
+```cpp
+ListNode* detectCycleStart(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            ListNode* ptr1 = head;
+            ListNode* ptr2 = slow;
+
+            while (ptr1 != ptr2) {
+                ptr1 = ptr1->next;
+                ptr2 = ptr2->next;
+            }
+
+            return ptr1;
+        }
+    }
+
+    return nullptr;
+}
+```
+
+### 9. **回文の検証**:
+連結リストが回文であるかどうかを確認します。
+```cpp
+bool isPalindrome(ListNode* head) {
+    if (!head || !head->next) return true;
+
+    // Find middle
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while (fast->next && fast->next->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // Reverse the second half
+    ListNode* prev = nullptr;
+    ListNode* curr = slow->next;
+    while (curr) {
+        ListNode* nextTemp = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextTemp;
+    }
+
+    // Check palindrome
+    ListNode* p1 = head;
+    ListNode* p2 = prev;
+    while (p2) {
+        if (p1->val != p2->val) return false;
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+
+    return true;
+}
+```
+
+### 10. **リストの交差点の検出**:
+2つの連結リストが交差する点（もしあれば）を検出する。
+```cpp
+ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+    if (!headA || !headB) return nullptr;
+
+    ListNode* a = headA;
+    ListNode* b = headB;
+
+    while (a != b) {
+        a = a ? a->next : headB;
+        b = b ? b->next : headA;
+    }
+
+    return a;
+}
+```
