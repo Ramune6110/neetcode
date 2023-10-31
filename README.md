@@ -1,5 +1,57 @@
 # Data Structure
 
+### シーケンスコンテナ (Sequence Containers):
+1. **`std::vector`**:
+    - 動的配列。連続したメモリにデータを格納する。要素の追加/削除は末尾が最も高速。
+  
+2. **`std::list`**:
+    - 二重連結リスト。要素の追加/削除がO(1)で行えるが、ランダムアクセスは遅い。
+  
+3. **`std::deque`**:
+    - 両端キュー（double-ended queue）。先頭と末尾の両方での要素の追加/削除が高速。
+  
+4. **`std::forward_list`** (C++11以降):
+    - 単方向連結リスト。
+  
+5. **`std::array`** (C++11以降):
+    - 固定長の配列。サイズ変更不可。
+
+### アソシアティブコンテナ (Associative Containers):
+1. **`std::set`**:
+    - ソートされたユニークな要素の集合。要素の追加、削除、検索がバランス木のような構造で高速。
+  
+2. **`std::multiset`**:
+    - ソートされた要素の集合。重複要素を許容。
+  
+3. **`std::map`**:
+    - キーと値のペアの集合。キーはユニーク。
+  
+4. **`std::multimap`**:
+    - キーと値のペアの集合。キーの重複を許容。
+
+### アンオーダードアソシアティブコンテナ (Unordered Associative Containers) (C++11以降):
+1. **`std::unordered_set`**:
+    - ハッシュセット。ソートされていないユニークな要素の集合。
+  
+2. **`std::unordered_multiset`**:
+    - ハッシュセット。ソートされていない要素の集合で、重複を許容。
+  
+3. **`std::unordered_map`**:
+    - ハッシュマップ。ソートされていないキーと値のペアの集合。キーはユニーク。
+  
+4. **`std::unordered_multimap`**:
+    - ハッシュマップ。ソートされていないキーと値のペアの集合。キーの重複を許容。
+
+### アダプターコンテナ (Container Adapters):
+1. **`std::stack`**:
+    - LIFO (Last In, First Out) プリンシプルに基づくデータ構造。
+  
+2. **`std::queue`**:
+    - FIFO (First In, First Out) プリンシプルに基づくデータ構造。
+  
+3. **`std::priority_queue`**:
+    - 優先度を持つキュー。
+
 # vector
 
 ### 基本概念と主な特徴:
