@@ -146,7 +146,7 @@ std::vector<int> computePrefixSum(const std::vector<int>& nums) {
 
 # アンオーダードアソシアティブコンテナ (Unordered Associative Containers) (C++11以降):
 # 1. unordered_set
-### 基本概念と主な特徴:
+## 基本概念と主な特徴:
 
 | 項目 | 説明 |
 |------|------|
@@ -159,7 +159,7 @@ std::vector<int> computePrefixSum(const std::vector<int>& nums) {
 | **メモリ** | 順序付きのセット(`std::set`)に比べて、少しメモリ使用量が多くなる可能性があります。 |
 | **イテレータの無効化** | 要素の挿入や削除により、イテレータが無効になることはありません（ただし、ハッシュテーブルが再ハッシュされる場合を除く）。 |
 
-### 基本的な操作:
+## 基本的な操作:
 
 | 操作 | 説明 | 例 |
 |------|------|----|
@@ -171,7 +171,7 @@ std::vector<int> computePrefixSum(const std::vector<int>& nums) {
 | **空の確認** | セットが空であるかを確認する。 | `if(s.empty()) { /* empty */ }` |
 | **全要素削除** | セットのすべての要素を削除する。 | `s.clear();` |
 
-### 活用例:
+## 活用例:
 1. **Contains Duplicate**:
 配列内に重複する要素が存在するかどうかを確認します。
 ```cpp
@@ -227,7 +227,7 @@ std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) 
 ```
 
 # 3. unordered_map
-### 基本概念と主な特徴:
+## 基本概念と主な特徴:
 
 | 項目 | 説明 |
 |------|------|
@@ -239,7 +239,7 @@ std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) 
 | **挿入の順序** | 要素を挿入した順序は保存されません。 |
 | **バケット** | 内部的にバケットと呼ばれるハッシュテーブルのセグメントを使用して要素を管理します。 |
 
-### 基本的な操作:
+## 基本的な操作:
 
 | 操作 | 説明 | 例 |
 |------|------|------|
@@ -253,7 +253,7 @@ std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) 
 | **全要素の削除** | `unordered_map`のすべての要素を削除します。 | `umap.clear();` |
 | **イテレート** | `unordered_map`の要素をイテレートします。 | `for(const auto& pair : umap) { /* use pair.first and pair.second */ }` |
 
-### 活用例:
+## 活用例:
 1. **Two Sum Problem**:
 与えられた整数の配列とターゲットの整数があり、配列内の2つの数の合計がターゲットに等しい場合、それらの数のインデックスを返します。
 ```cpp
@@ -323,7 +323,7 @@ int subarraySum(std::vector<int>& nums, int k) {
 
 # アダプターコンテナ (Container Adapters):
 # 1. stack
-### 基本概念と主な特徴:
+## 基本概念と主な特徴:
 
 | 項目 | 説明 |
 |------|------|
@@ -334,7 +334,7 @@ int subarraySum(std::vector<int>& nums, int k) {
 | **内部実装** | `stack`は実際にはコンテナアダプタとして実装されており、内部実装として`deque`や`vector`などの他のコンテナを使用している。しかし、その実装の詳細は通常の使用時には気にする必要はない。 |
 | **パフォーマンス** | `stack`のデータの追加や削除は高速である。特に、内部で`deque`を使用している場合は、要素の追加や削除が定数時間で行われる。 |
 
-### 基本的な操作:
+## 基本的な操作:
 
 | 操作 | 説明 | 例 |
 |------|------|-----|
@@ -343,6 +343,104 @@ int subarraySum(std::vector<int>& nums, int k) {
 | `top()` | スタックの最上部の要素を参照する。この操作で要素は削除されない。 | `int x = s.top();` |
 | `empty()` | スタックが空かどうかをチェックする。空の場合は`true`、それ以外は`false`を返す。 | `if (s.empty()) {...}` |
 | `size()` | スタックに格納されている要素の数を返す。 | `int n = s.size();` |
+
+## 活用例:
+1. **括弧のバランスチェック**:
+- 与えられた文字列が、正しく括弧がバランスされているかどうかを判断します。
+```cpp
+#include <stack>
+
+bool isValidParenthesis(const std::string& s) {
+    std::stack<char> st;
+    for (char c : s) {
+        if (c == '(' || c == '{' || c == '[') {
+            st.push(c);
+        } else {
+            if (st.empty()) return false;
+            char top = st.top();
+            st.pop();
+            if (c == ')' && top != '(') return false;
+            if (c == '}' && top != '{') return false;
+            if (c == ']' && top != '[') return false;
+        }
+    }
+    return st.empty();
+}
+```
+
+2. **逆ポーランド記法 (RPN) の評価**:
+- 逆ポーランド記法の式を評価します。
+```cpp
+#include <stack>
+#include <sstream>
+
+int evalRPN(const std::vector<std::string>& tokens) {
+    std::stack<int> st;
+    for (const auto& token : tokens) {
+        if (token == "+" || token == "-" || token == "*" || token == "/") {
+            int op2 = st.top(); st.pop();
+            int op1 = st.top(); st.pop();
+            if (token == "+") st.push(op1 + op2);
+            else if (token == "-") st.push(op1 - op2);
+            else if (token == "*") st.push(op1 * op2);
+            else st.push(op1 / op2);
+        } else {
+            st.push(std::stoi(token));
+        }
+    }
+    return st.top();
+}
+```
+
+3. **最大の矩形の面積の計算**:
+- ヒストグラムにおける最大の矩形の面積を計算します。
+```cpp
+#include <stack>
+
+int largestRectangleArea(const std::vector<int>& heights) {
+    std::stack<int> st;
+    int maxArea = 0;
+    int i = 0;
+    while (i < heights.size()) {
+        if (st.empty() || heights[i] >= heights[st.top()]) {
+            st.push(i++);
+        } else {
+            int h = heights[st.top()];
+            st.pop();
+            int w = st.empty() ? i : i - st.top() - 1;
+            maxArea = std::max(maxArea, h * w);
+        }
+    }
+    while (!st.empty()) {
+        int h = heights[st.top()];
+        st.pop();
+        int w = st.empty() ? i : i - st.top() - 1;
+        maxArea = std::max(maxArea, h * w);
+    }
+    return maxArea;
+}
+```
+
+4. **最も近い小さい値**:
+- 各要素について、それより左にある最も近い小さい値のインデックスを求めます。
+```cpp
+#include <stack>
+
+std::vector<int> nearestSmallerToLeft(const std::vector<int>& nums) {
+    std::stack<int> st;
+    std::vector<int> result(nums.size(), -1);
+    for (int i = 0; i < nums.size(); ++i) {
+        while (!st.empty() && nums[st.top()] >= nums[i]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            result[i] = st.top();
+        }
+        st.push(i);
+    }
+    return result;
+}
+```
 
 # 2. queue
 ### 基本概念と主な特徴:
