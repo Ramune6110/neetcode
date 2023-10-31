@@ -187,4 +187,244 @@ int getHeight(TreeNode* root) {
 }
 ```
 
+# 木構造典型アルゴリズム
 
+### **深さ優先探索 (DFS)**:
+通常、DFS は再帰を使用して実装されますが、スタックを使って反復的にも実装できます。
+
+```cpp
+// 再帰を使用したDFS
+void dfs_recursive(TreeNode* root) {
+    if (root == nullptr) return;
+    
+    // 処理 (例: 値の出力)
+    cout << root->val << " ";
+    
+    dfs_recursive(root->left);
+    dfs_recursive(root->right);
+}
+
+// スタックを使用したDFS
+void dfs_iterative(TreeNode* root) {
+    if (root == nullptr) return;
+    
+    stack<TreeNode*> s;
+    s.push(root);
+    
+    while (!s.empty()) {
+        TreeNode* curr = s.top();
+        s.pop();
+
+        // 処理 (例: 値の出力)
+        cout << curr->val << " ";
+
+        if (curr->right) s.push(curr->right); // 右部分木を先にスタックに入れる
+        if (curr->left) s.push(curr->left);
+    }
+}
+```
+
+### **幅優先探索 (BFS)**:
+BFSは通常、キューを使用して反復的に実装されます。
+
+```cpp
+#include <queue>
+
+void bfs(TreeNode* root) {
+    if (root == nullptr) return;
+
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+
+        // 処理 (例: 値の出力)
+        cout << curr->val << " ";
+
+        if (curr->left) q.push(curr->left);
+        if (curr->right) q.push(curr->right);
+    }
+}
+```
+
+### **節点の追加**:
+```cpp
+TreeNode* insert(TreeNode* root, int val) {
+    if (root == nullptr) {
+        return new TreeNode(val);
+    }
+    if (val < root->val) {
+        root->left = insert(root->left, val);
+    } else if (val > root->val) {
+        root->right = insert(root->right, val);
+    }
+    return root;
+}
+```
+
+### **節点の削除**:
+```cpp
+TreeNode* minValueNode(TreeNode* root) {
+    TreeNode* current = root;
+    while (current && current->left != nullptr)
+        current = current->left;
+    return current;
+}
+
+TreeNode* deleteNode(TreeNode* root, int val) {
+    if (root == nullptr) return root;
+
+    if (val < root->val) {
+        root->left = deleteNode(root->left, val);
+    } else if (val > root->val) {
+        root->right = deleteNode(root->right, val);
+    } else {
+        if (root->left == nullptr) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+        TreeNode* temp = minValueNode(root->right);
+        root->val = temp->val;
+        root->right = deleteNode(root->right, temp->val);
+    }
+    return root;
+}
+```
+
+### **AVL木**: 
+```cpp
+// AVL Treeの基本概念の簡単なデモ
+int height(TreeNode* node) {
+    if (node == nullptr)
+        return 0;
+    return max(height(node->left), height(node->right)) + 1;
+}
+
+int getBalance(TreeNode* node) {
+    if (node == nullptr)
+        return 0;
+    return height(node->left) - height(node->right);
+}
+
+// Right Rotation (LL Rotation)
+TreeNode* rightRotate(TreeNode* y) {
+    TreeNode* x = y->left;
+    TreeNode* T3 = x->right;
+    x->right = y;
+    y->left = T3;
+    return x;
+}
+
+// Left Rotation (RR Rotation)
+TreeNode* leftRotate(TreeNode* x) {
+    TreeNode* y = x->right;
+    TreeNode* T2 = y->left;
+    y->left = x;
+    x->right = T2;
+    return y;
+}
+
+TreeNode* insertAVL(TreeNode* node, int val) {
+    // 通常のBST挿入
+    if (node == nullptr)
+        return new TreeNode(val);
+    if (val < node->val)
+        node->left = insertAVL(node->left, val);
+    else if (val > node->val)
+        node->right = insertAVL(node->right, val);
+    else
+        return node;
+
+    // AVLバランシングのロジック
+    int balance = getBalance(node);
+    if (balance > 1) {
+        if (val < node->left->val)
+            return rightRotate(node);
+        else {
+            node->left = leftRotate(node->left);
+            return rightRotate(node);
+        }
+    }
+    if (balance < -1) {
+        if (val > node->right->val)
+            return leftRotate(node);
+        else {
+            node->right = rightRotate(node->right);
+            return leftRotate(node);
+        }
+    }
+    return node;
+}
+```
+
+### **木の直径**:
+```cpp
+int diameterOfTree(TreeNode* root, int &res) {
+    if (root == nullptr) return 0;
+    int left = diameterOfTree(root->left, res);
+    int right = diameterOfTree(root->right, res);
+    res = max(res, left + right + 1);
+    return max(left, right) + 1;
+}
+
+int diameter(TreeNode* root) {
+    int res = 1;
+    diameterOfTree(root, res);
+    return res;
+}
+```
+
+### **木の同型性の確認**:
+2つの木が同型である場合、それぞれの木の節点は同じ子供の数を持っていなければなりません。さらに、それらの子供たちもまた同型でなければなりません。
+
+```cpp
+bool isIsomorphic(TreeNode* root1, TreeNode* root2) {
+    if (!root1 && !root2) return true;
+    if (!root1 || !root2) return false;
+    if (root1->val != root2->val) return false;
+    return (isIsomorphic(root1->left, root2->left) && isIsomorphic(root1->right, root2->right)) || 
+           (isIsomorphic(root1->left, root2->right) && isIsomorphic(root1->right, root2->left));
+}
+```
+
+### **木から配列への変換**:
+
+木の各節点の値を前順序で訪問して配列に追加します。
+
+```cpp
+void treeToArray(TreeNode* root, vector<int>& result) {
+    if (!root) {
+        result.push_back(INT_MIN);  // ヌルの場合はINT_MINを使用します。
+        return;
+    }
+    result.push_back(root->val);
+    treeToArray(root->left, result);
+    treeToArray(root->right, result);
+}
+```
+
+### **配列から木への変換**:
+
+前順序で訪問された節点の値を持つ配列を使用して木を再構築します。
+
+```cpp
+int idx = 0;
+
+TreeNode* arrayToTree(const vector<int>& data) {
+    if (idx >= data.size() || data[idx] == INT_MIN) {
+        idx++;
+        return nullptr;
+    }
+    TreeNode* root = new TreeNode(data[idx++]);
+    root->left = arrayToTree(data);
+    root->right = arrayToTree(data);
+    return root;
+}
+```
