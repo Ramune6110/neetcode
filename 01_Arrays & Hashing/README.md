@@ -118,6 +118,77 @@
 | **空の確認** | セットが空であるかを確認する。 | `if(s.empty()) { /* empty */ }` |
 | **全要素削除** | セットのすべての要素を削除する。 | `s.clear();` |
 
+# unordered_set典型的アルゴリズム
+### 1. **Two Sum Problem**:
+与えられた整数の配列とターゲットの整数があり、配列内の2つの異なるインデックスを持つ数の合計がターゲットに等しい場合、それらのインデックスを返します。
+```cpp
+std::vector<int> twoSum(std::vector<int>& nums, int target) {
+    std::unordered_map<int, int> hashMap;
+    for (int i = 0; i < nums.size(); i++) {
+        int complement = target - nums[i];
+        if (hashMap.find(complement) != hashMap.end()) {
+            return {hashMap[complement], i};
+        }
+        hashMap[nums[i]] = i;
+    }
+    return {};  // Empty vector if no solution is found
+}
+```
+
+### 2. **Contains Duplicate**:
+配列内に重複する要素が存在するかどうかを確認します。
+```cpp
+bool containsDuplicate(std::vector<int>& nums) {
+    std::unordered_set<int> set;
+    for (int num : nums) {
+        if (set.find(num) != set.end()) {
+            return true;
+        }
+        set.insert(num);
+    }
+    return false;
+}
+```
+
+### 3. **Longest Substring Without Repeating Characters**:
+文字列内の最も長い部分文字列の長さを返し、その部分文字列には重複する文字が含まれていません。
+```cpp
+int lengthOfLongestSubstring(std::string s) {
+    std::unordered_set<char> set;
+    int maxLength = 0;
+    int left = 0, right = 0;
+    
+    while (right < s.length()) {
+        if (set.find(s[right]) == set.end()) {
+            set.insert(s[right]);
+            maxLength = std::max(maxLength, right - left + 1);
+            right++;
+        } else {
+            set.erase(s[left]);
+            left++;
+        }
+    }
+    return maxLength;
+}
+```
+
+### 4. **Intersection of Two Arrays**:
+2つの配列が与えられた場合、2つの配列の交差を表す要素のリストを返します。
+```cpp
+std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) {
+    std::unordered_set<int> set1(nums1.begin(), nums1.end());
+    std::unordered_set<int> resultSet;
+    
+    for (int num : nums2) {
+        if (set1.find(num) != set1.end()) {
+            resultSet.insert(num);
+        }
+    }
+    
+    return std::vector<int>(resultSet.begin(), resultSet.end());
+}
+```
+
 # unordered_map
 
 ### 基本概念と主な特徴:
